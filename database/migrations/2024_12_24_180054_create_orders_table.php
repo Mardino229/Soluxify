@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string("reference")->unique();
-            $table->enum('status', ['pending', 'validated', 'cancelled'])->default('pending');
+            $table->decimal("total");
+            $table->string("delivery_address");
+            $table->enum('status', ['Pending', 'Validated', 'Refused', 'Cancelled'])->default('Pending');
             $table->timestamps();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->foreignId('vendor_id')->constrained()->onDelete('cascade');

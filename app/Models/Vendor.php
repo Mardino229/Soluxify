@@ -9,9 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Vendor extends Authenticatable
 {
     use HasFactory;
-    protected $fillable = ['name', 'email', 'password', 'kkiapay_id'];
+    protected $fillable = ['name', 'email', 'market', 'password', 'kkiapay_id'];
 
     public function products() {
         return $this->hasMany(Product::class);
+    }
+    public function orders() {
+        return $this->hasMany(Order::class);
     }
 }

@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Storage;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'price', 'image', 'vendor_id', 'stock'];
+    protected $fillable = ['name', 'description','sales', 'price', 'image', 'vendor_id', 'stock', 'reference'];
 
     public function image():string{
         return Storage::url($this->image);
     }
 
     public function vendor() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Vendor::class);
     }
 
     public function orders()

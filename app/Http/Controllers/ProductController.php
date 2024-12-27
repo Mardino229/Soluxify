@@ -17,8 +17,9 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
-    public function view($id) {
-        $product = Product::where('vendor_id', Auth::guard('vendor')->id())->findOrFail($id);
+    public function view($reference) {
+        $product = Product::where('vendor_id', Auth::guard('vendor')->id())
+            ->where('reference',$reference)->first();
 
         return view('clients.product', compact('product'));
     }
@@ -26,22 +27,27 @@ class ProductController extends Controller
     // Enregistrer un nouveau produit
     public function store(ProductRequest $request)
     {
+        if (Auth::guard('vendor')->user()->kkiapay_id == "") {
+            return back()->with("error", "Please fill your billing address in section My Account->Payment Data");
+        }
+
         $request->validated();
 
         $image = $request->file('image');
-
+        $request['reference'] = $this->generateProducReference();
         $product = Auth::guard('vendor')->user()->products()->create($request->all());
         if ($image) {
             $product->image = $image->store('images', 'public');
             $product->save();
         }
-        return redirect()->route('dashboard')->with('success', 'Produit ajouté avec succès.');
+        return redirect()->route('dashboard')->with('success', 'Product created successfully');
     }
 
     // Mettre à jour un produit
-    public function update(ProductRequest $request, $id)
+    public function update(ProductRequest $request, $reference)
     {
-        $product = Product::where('vendor_id', Auth::guard('vendor')->id())->findOrFail($id);
+        $product = Product::where('vendor_id', Auth::guard('vendor')->id())
+            ->where('reference',$reference)->first();;
 
         $request->validated();
 
@@ -57,12 +63,13 @@ class ProductController extends Controller
             $product->save();
         }
 
-        return redirect()->route('dashboard')->with('success', 'Produit mis à jour avec succès.');
+        return redirect()->route('dashboard')->with('success', 'Product updated successfully');
     }
     // Supprimer un produit
-    public function destroy($id)
+    public function destroy($reference)
     {
-        $product = Product::where('vendor_id', Auth::guard('vendor')->id())->findOrFail($id);
+        $product = Product::where('vendor_id', Auth::guard('vendor')->id())
+            ->where('reference',$reference)->first();
 
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
@@ -70,6 +77,15 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Produit supprimé avec succès.');
+        return redirect()->route('dashboard')->with('success', 'Product deleted successfully');
     }
+
+    function generateProducReference() {
+        $user = Auth::guard('vendor')->user();
+        $initials = strtoupper(substr($user->name, 0, 2));
+        $randomNumbers = mt_rand(10000000, 99999999);
+        $reference = "P".$initials . $randomNumbers;
+        return $reference;
+    }
+
 }

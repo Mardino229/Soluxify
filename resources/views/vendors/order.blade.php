@@ -1,21 +1,19 @@
 
-@extends('clients.layouts.app')
+@extends('vendors.layouts.app')
 @section('main')
     <div class="py-12">
         <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
             <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Track the delivery of order #{{$order->reference}}</h2>
-
                 <div class="mt-6 sm:mt-8 lg:flex lg:gap-8">
                     <div class="w-full divide-y divide-gray-200 overflow-hidden rounded-lg border border-gray-200 dark:divide-gray-700 dark:border-gray-700 lg:max-w-xl xl:max-w-2xl">
                         @foreach($order->products as $product)
                             <div class="space-y-4 p-6">
                                 <div class="flex items-center gap-6">
-                                    <a href="{{route('view', $product->reference)}}" class="h-14 w-14 shrink-0">
+                                    <a href="{{route('view', $product)}}" class="h-14 w-14 shrink-0">
                                         <img class="h-full w-full dark:hidden" src="{{$product->image()}}" alt="imac image" />
                                     </a>
 
-                                    <a href="{{route('view', $product->reference)}}" class="min-w-0 flex-1 font-medium text-gray-900 hover:underline dark:text-white">
+                                    <a href="{{route('view', $product)}}" class="min-w-0 flex-1 font-medium text-gray-900 hover:underline dark:text-white">
                                         {{$product->name}}
                                     </a>
                                 </div>
@@ -53,7 +51,7 @@
 
                             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                 <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
-                                <dd class="text-lg font-bold text-gray-900 dark:text-white">${{$order->total +5}}</dd>
+                                <dd class="text-lg font-bold text-gray-900 dark:text-white">${{$order->total + 5 }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -104,10 +102,17 @@
 
                             <div class="gap-4 sm:flex sm:items-center">
                                 @if($order->status == "Pending")
-                                    <form class="w-full" method="POST" action={{route("cancelled_order", $order->reference)}} >
-                                        @csrf
+                                    <form method="POST" action={{route("validated_order", $order->reference)}}>
                                         @method("PATCH")
-                                        <button type="submit" class="w-full rounded-lg  border border-gray-200 bg-white px-5  py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Cancel the order</button>
+                                        @csrf
+                                        <button type="submit" class="mt-4 flex w-full items-center justify-center rounded-lg bg-primary-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 sm:mt-0">Validate the order</button>
+                                    </form>
+                                    <form method="POST" action={{route("refused_order", $order->reference)}}>
+                                        @method("PATCH")
+                                        @csrf
+                                        <button type="submit" class="w-full rounded-lg  border border-gray-200 bg-white px-5  py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                                            Refuse the order
+                                        </button>
                                     </form>
                                 @endif
                             </div>

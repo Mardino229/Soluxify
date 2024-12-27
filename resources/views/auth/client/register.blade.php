@@ -1,7 +1,7 @@
 @extends("clients.layouts.guest")
     @section('main')
         <section class="bg-gray-50 dark:bg-gray-900">
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
                 <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                     <img class="w-16 h-16 mr-2" src="https://img.icons8.com/external-smashingstocks-flat-smashing-stocks/66/external-Shopping-App-smooth-conceptual-smashingstocks-flat-smashing-stocks.png" alt="logo">
                     Soluxify

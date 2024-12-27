@@ -25,7 +25,7 @@
                         </x-nav-link>
                     </li>
                     <li class="shrink-0">
-                        <x-nav-link :href="route('my_orders')" :active="request()->routeIs('my_orders')">
+                        <x-nav-link :href="route('my_orders')" :active="request()->routeIs('my_orders')|request()->routeIs('order_detail')">
                             {{ __('My Orders') }}
                         </x-nav-link>
                     </li>
@@ -95,9 +95,6 @@
                 <div id="userDropdown1" class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
                     <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                         <li><a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> My Account </a></li>
-                        <li><a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Settings </a></li>
-                        <li><a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Favourites </a></li>
-                        <li><a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Delivery Addresses </a></li>
                         <li><a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Billing Data </a></li>
                     </ul>
 
@@ -133,7 +130,7 @@
                     </x-nav-link>
                 </li>
                 <li>
-                    <x-nav-link :href="route('my_orders')" :active="request()->routeIs('my_orders')">
+                    <x-nav-link :href="route('my_orders')" :active="request()->routeIs('my_orders')|request()->routeIs('order_detail')">
                         {{ __('My Orders') }}
                     </x-nav-link>
                 </li>

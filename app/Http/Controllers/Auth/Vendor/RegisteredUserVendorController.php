@@ -32,12 +32,14 @@ class RegisteredUserVendorController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'market' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = Vendor::create([
             'name' => $request->name,
+            'market' => $request->market,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
