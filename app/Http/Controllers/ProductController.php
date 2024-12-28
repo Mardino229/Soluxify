@@ -27,8 +27,9 @@ class ProductController extends Controller
     // Enregistrer un nouveau produit
     public function store(ProductRequest $request)
     {
-        if (Auth::guard('vendor')->user()->kkiapay_id == "") {
-            return back()->with("error", "Please fill your billing address in section My Account->Payment Data");
+        $vendor = Auth::guard('vendor')->user();
+        if (!$vendor->kkiapay_public_key || !$vendor->kkiapay_secret_key || !$vendor->kkiapay_private_key) {
+            return back()->with("error", "Please fill your billing address in section Account->Payment Data");
         }
 
         $request->validated();

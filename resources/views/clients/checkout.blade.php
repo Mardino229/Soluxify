@@ -200,13 +200,13 @@
                                     <dd class="text-base font-bold text-gray-900 dark:text-white">${{$total+5}}</dd>
                                 </dl>
                             </div>
-                            <form method="POST" action={{route('create_order')}}>
-                                @csrf
-                                <label for="delivery_address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Delivery Address</label>
-                                <input type="text" name="delivery_address" id="delivery_address" class="bg-gray-50 border border-gray-300 mb-2 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
-                                <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed to Checkout</button>
-                            </form>
-
+                                <button
+                                    @if(!isset($kkiapay_public_key))
+                                        disabled
+                                    @endif
+                                    class="kkiapay-button flex w-full items-center @if(!isset($kkiapay_public_key)) cursor-not-allowed @else cursor-pointer @endif justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    Proceed to Checkout
+                                </button>
                             <div class="flex items-center justify-center gap-2">
                                 <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> or </span>
                                 <a href="{{route("home")}}" title="" class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
@@ -223,3 +223,13 @@
         </section>
     </div>
 @endsection
+<script amount="{{ $total+5 }}"
+        callback="{{route("check_payment")}}"
+        data=""
+        position="right"
+        theme="#0095ff"
+        sandbox="true"
+        @if(isset($kkiapay_public_key))
+            key="{{$kkiapay_public_key}}"
+        @endif
+        src="https://cdn.kkiapay.me/k.js"></script>

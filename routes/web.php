@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
@@ -22,9 +23,12 @@ Route::group(['middleware' => ['auth:client']], function () {
     Route::get('/product/{reference}', [ProductController::class, 'view'])->name('view');
     Route::post('/add-product-to-cart/{product}', [ClientController::class, 'addToCart'])->name('addToCart');
     Route::delete('/remove-product-of-cart/{name}', [ClientController::class, 'removeFromCart'])->name('removeFromCart');
-    Route::post('/create_order', [ClientController::class, 'placeOrder'])->name('create_order');
+    Route::get('/create_order', [ClientController::class, 'placeOrder'])->name('create_order');
     Route::get('/order_detail/{reference}', [OrderController::class, 'viewOrder'])->name('order_detail');
     Route::patch('/cancelled_order/{reference}', [OrderController::class, 'cancelledOrder'])->name('cancelled_order');
+    Route::patch('/updated_shipping_address', [ClientController::class, 'update_shipping_address'])->name('updated_shipping_address');
+    Route::get('/payment/redirect', [PaymentController::class, 'handleRedirect'])->name("check_payment");
+
 
 });
 Route::group(['middleware' => ['auth:vendor']], function () {
