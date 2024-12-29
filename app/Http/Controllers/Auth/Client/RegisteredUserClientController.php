@@ -32,7 +32,7 @@ class RegisteredUserClientController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Client::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -44,7 +44,7 @@ class RegisteredUserClientController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::guard('client')->login($user);
 
         return redirect(route('home', absolute: false));
 

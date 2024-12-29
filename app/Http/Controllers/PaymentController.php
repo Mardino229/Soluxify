@@ -14,31 +14,29 @@ class PaymentController extends Controller
 {
     public function handleRedirect(Request $request)
     {
-        $transactionId = $request->query('transaction_id');
-
-        if (!$transactionId) {
-            return redirect()->route('checkout')->with('errors', "Invalid transaction");
-        }
-        $cart = session('cart', []);
-        $vendor = Vendor::find(Product::find($cart[0]['product']->id)->vendor_id);
-
-        $kkiapay = new Kkiapay(
-            $vendor->kkiapay_public_key,
-            $vendor->kkiapay_private_key,
-            $vendor->kkiapay_secret,
-            $sandbox = true
-        );
-
-        $transaction = $kkiapay->verifyTransaction($transactionId);
-
-        if($transaction->status == "SUCCESS") {
-            $this->placeOrder($transactionId);
+//        $transactionId = $request->query('transaction_id');
+//
+//        if (!$transactionId) {
+//            return redirect()->route('checkout')->with('errors', "Invalid transaction");
+//        }
+//
+//        $kkiapay = new Kkiapay(
+//            env("KKIAPAY_PUBLIC_KEY"),
+//            env("KKIAPAY_PRIVATE_KEY"),
+//            env("KKIAPAY_SECRET_KEY"),
+//            env("SANDBOX")? "true" : 'false',
+//        );
+//
+//        $transaction = $kkiapay->verifyTransaction($transactionId);
+//
+//        if($transaction->status == "SUCCESS") {
+            $this->placeOrder();
             return redirect()->route('my_orders')->with('success', 'Order placed successfully.');
-        }
-        return redirect()->route('checkout')->with('error', 'Payment is failed');
+//        }
+//        return redirect()->route('checkout')->with('error', 'Payment is failed');
     }
 
-    public function placeOrder($transactionId)
+    public function placeOrder()
     {
         $cart = session('cart', []);
 
@@ -53,7 +51,7 @@ class PaymentController extends Controller
             'total' => $total,
             'delivery_address' => Auth::guard('client')->user()->shipping_address,
             'reference' => $this->generateOrderReference(),
-            'transaction_id' => $transactionId,
+            'transaction_id' => "o",
         ]);
 
         foreach ($cart as $item) {
@@ -78,5 +76,6 @@ class PaymentController extends Controller
         $reference = "O".$initials . $randomNumbers;
         return $reference;
     }
+
 
 }

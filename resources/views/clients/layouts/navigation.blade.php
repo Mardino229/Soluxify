@@ -2,13 +2,13 @@
     $cart = session('cart', []);
 @endphp
 <nav class="bg-white dark:bg-gray-800 antialiased">
-    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
+    <div class="max-w-screen-xl sm:px-4 px-2 mx-auto 2xl:px-0 py-2 sm:py-4">
         <div class="flex items-center justify-between">
 
             <div class="flex items-center space-x-8">
                 <div class="shrink-0">
-                    <a href="{{route('home')}}" title="" class="flex items-center text-2xl font-semibold text-gray-900">
-                        <img class="block w-auto h-16 dark:hidden" src="https://img.icons8.com/external-smashingstocks-flat-smashing-stocks/66/external-Shopping-App-smooth-conceptual-smashingstocks-flat-smashing-stocks.png" alt="">
+                    <a href="{{route('home')}}" title="" class="flex items-center sm:text-2xl text-xl font-semibold text-gray-900">
+                        <img class="block w-auto sm:h-16 h-10 dark:hidden" src="https://img.icons8.com/external-smashingstocks-flat-smashing-stocks/66/external-Shopping-App-smooth-conceptual-smashingstocks-flat-smashing-stocks.png" alt="">
                         Soluxify
                     </a>
                 </div>

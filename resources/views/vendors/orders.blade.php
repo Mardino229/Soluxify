@@ -8,6 +8,12 @@
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Orders</h2>
                     </div>
 
+                    @if($orders->isEmpty())
+                        <img class="mt-8 sm:mt-4" src="{{ asset('images/notfound.jpg') }}" alt="Not Orders">
+
+                        <h1 class="text-center">No Orders founded</h1>
+                    @endif
+
                     <div class="mt-6 flow-root sm:mt-8">
                         <div class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($orders as $order)

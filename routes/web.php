@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:client']], function () {
 });
 Route::group(['middleware' => ['auth:vendor']], function () {
     Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
+    Route::post('/search', [ProductController::class, 'search'])->name('search');
     Route::get('/orders', [VendorController::class, 'viewOrders'])->name('orders');
     Route::get('/order/{reference}', [VendorController::class, 'viewOrder'])->name('order');
     Route::post('/create_product', [ProductController::class, 'store'])->name('create_product');

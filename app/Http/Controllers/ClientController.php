@@ -61,9 +61,8 @@ class ClientController extends Controller
     public function viewCart() {
         $cart = session('cart', []);
         if (!empty($cart)) {
-            $kkiapay_public_key = Vendor::find(Product::find($cart[0]['product']->id)->vendor_id)->kkiapay_public_key;
-            $kkiapay_private_key = Vendor::find(Product::find($cart[0]['product']->id)->vendor_id)->kkiapay_private_key;
-            return view('clients.checkout', compact("kkiapay_private_key", "kkiapay_public_key"));
+            $kkiapay_public_key = Vendor::find(Product::find($cart[0]['product']->id)->vendor_id)->kkiapay_id;
+            return view('clients.checkout', compact( "kkiapay_public_key"));
         }
         return view('clients.checkout');
     }

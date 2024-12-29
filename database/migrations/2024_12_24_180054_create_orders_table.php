@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string("reference")->unique();
             $table->decimal("total");
             $table->string("delivery_address");
+            $table->string('kkiapay_id')->nullable();
             $table->enum('status', ['Pending', 'Validated', 'Refused', 'Cancelled'])->default('Pending');
+            $table->enum('payment_status', ['Paid', 'Unpaid', 'Reverted'])->default('Unpaid');
             $table->timestamps();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->foreignId('vendor_id')->constrained()->onDelete('cascade');

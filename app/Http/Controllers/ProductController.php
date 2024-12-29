@@ -18,17 +18,24 @@ class ProductController extends Controller
     }
 
     public function view($reference) {
-        $product = Product::where('vendor_id', Auth::guard('vendor')->id())
-            ->where('reference',$reference)->first();
-
+        $product = Product::where('reference',$reference)->first();
         return view('clients.product', compact('product'));
     }
+
+    public function search(Request $request) {
+        $request->validate([ 'name' => 'required|string|max:255', ]);
+        $name = $request->input('name');
+        $vendor = Auth::guard('vendor')->user();
+        $products = Product::where('name', 'LIKE', '%' . $name . '%')->get()->where('vendor_id', $vendor->id);
+        return view('vendors.dashboard',compact('products', "name"));
+    }
+
 
     // Enregistrer un nouveau produit
     public function store(ProductRequest $request)
     {
         $vendor = Auth::guard('vendor')->user();
-        if (!$vendor->kkiapay_public_key || !$vendor->kkiapay_secret_key || !$vendor->kkiapay_private_key) {
+        if (!$vendor->kkiapay_id ) {
             return back()->with("error", "Please fill your billing address in section Account->Payment Data");
         }
 

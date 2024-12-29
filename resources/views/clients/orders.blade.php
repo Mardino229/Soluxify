@@ -7,8 +7,12 @@
                     <div class="gap-4 sm:flex sm:items-center sm:justify-between">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">My orders</h2>
                     </div>
+                    @if($orders->isEmpty())
+                        <img class="mt-4" src="{{ asset('images/notfound.jpg') }}" alt="Not Product">
 
-                    <div class="mt-6 flow-root sm:mt-8">
+                        <h1 class="text-center mb-4">No Orders founded</h1>
+                    @endif
+                    <div class="mt-6 flow-root min-h-screen sm:min-h-full sm:mt-8">
                         <div class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($orders as $order)
                                 <div class="flex flex-wrap items-center gap-y-4 py-6">

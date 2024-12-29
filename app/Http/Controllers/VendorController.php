@@ -28,21 +28,12 @@ class VendorController extends Controller
 
     public function update_payment_address (Request $request) {
         $request->validate([
-            'kkiapay_public_key' => 'required',
-            'kkiapay_secret_key' => 'required',
-            'kkiapay_private_key' => 'required',
+            'kkiapay_id' => 'required',
         ]);
         $user = Auth::guard('vendor')->user();
-        $user->update([
-            "kkiapay_public_key"=>$request->kkiapay_public_key,
-            "kkiapay_secret_key"=>$request->kkiapay_secret_key,
-            "kkiapay_private_key"=>$request->kkiapay_private_key,
-        ]);
-        config([
-            'kkiapay.public_key' => $user->kkiapay_public_key,
-            'kkiapay.secret_key' => $user->kkiapay_secret_key,
-            'kkiapay.private_key' => $user->kkiapay_private_key,
-        ]);
+        $user->kkiapay_id = $request->kkiapay_id;
+        $user->save();
+
         return back()->with('success', "Kkiapay account updated successfully");
     }
 }
